@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int          @id @default(autoincrement())
+  username          String       @unique
+  email             String       @unique
+  emailVerified     Boolean      @default(false)
+  verificationToken String?      @unique //this should be removed
+  password          String
+  role              String
+  profileStatus     String       @default("active")
+  hasProfile        Boolean      @default(false)
+  secret            Json?
+  profile           UserProfile?
+  wallet            Wallet[]
+  orders            Order[]
+}
+
+model UserProfile {
+  id           Int     @id @default(autoincrement())
+  firstname    String
+  lastname     String
+  phoneNumber  String?
+  country      String?
+  state        String?
+  city         String?
+  address      String?
+  zipCode      String?
+  profileOwner User    @relation(fields: [profileId], references: [id]) // opposite relation field  
+  profileId    Int     @unique // foreign key column referencing the "id" column in the "users" table
+}
+
+model Wallet {
+  id                   Int           @id @default(autoincrement())
+  user                 User          @relation(fields: [userId], references: [id])
+  userId               Int
+  balance              Decimal
+  accounts             Account[]
+  accountsActive       Int           @default(0)
+  createdAt            DateTime
+  updatedAt            DateTime
+  outgoingTransactions Transaction[] @relation(name: "senderWallet")
+  incomingTransactions Transaction[] @relation(name: "receiverWallet")
+  orders               Order[]
+}
+
+model Account {
+  id        Int      @id @default(autoincrement())
+  name      String
+  balance   Decimal
+  asset     Asset?   @relation(fields: [assetId], references: [id])
+  assetId   Int?
+  createdAt DateTime
+  updatedAt DateTime
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
+  walletId  Int
+  orders    Order[]
+}
+
+model Asset {
+  id                                Int           @id @unique @default(autoincrement())
+  createdAt                         DateTime
+  updatedAt                         DateTime
+  status                            Int
+  symbol                            String
+  fullName                          String
+  decimals                          Int
+  minAmount                         Decimal
+  maxAmount                         Decimal
+  totalSupply                       Decimal
+  description                       String
+  logoUrl                           String
+  lotSize                           Decimal
+  defaultWithdrawFee                Decimal       @default(0)
+  defaultTransferFee                Decimal       @default(0)
+  defaultDepositFee                 Decimal       @default(0)
+  assetType                         Int
+  chain                             Chain         @relation(fields: [chainId], references: [id])
+  chainId                           Int
+  withdrawConfirmationsCountSuccess Int           @default(1)
+  depositConfirmationsCountMin      Int           @default(1)
+  depositAccounts                   Account[]
+  metadata                          Json          @default("{}")
+  transactions                      Transaction[]
+  isDisabled                        Boolean       @default(false)
+  disabledReason                    String        @default("")
+  disabledAt                        DateTime      @default(now())
+  feeAssets                         Asset[]       @relation("feeAssets")
+  feeAssetOf                        Asset[]       @relation("feeAssets")
+  orders                            Order[]
+}
+
+model Transaction {
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime
+  updatedAt        DateTime
+  status           String
+  type             String
+  amount           Decimal
+  fee              Decimal
+  asset            Asset?   @relation(fields: [assetId], references: [id])
+  assetId          Int?
+  senderwallet     Wallet   @relation(name: "senderWallet", fields: [senderwalletId], references: [id])
+  senderwalletId   Int
+  receiverwallet   Wallet   @relation(name: "receiverWallet", fields: [receiverwalletId], references: [id])
+  receiverwalletId Int
+}
+
+model Chain {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime
+  updatedAt DateTime
+  status    Int
+  name      String
+  symbol    String
+  network   String
+  assets    Asset[]
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  wallet      Wallet   @relation(fields: [walletId], references: [id])
+  walletId    Int
+  account     Account  @relation(fields: [accountId], references: [id])
+  accountId   Int
+  orderType   String   @default("market") // market, limit, stop
+  orderTime   String   @default("GTC") // GTC, IOC, FOK
+  side        String   @default("buy") // buy, sell
+  status      String    // pending, completed, cancelled, expired, open, filled, partially filled
+  assetType   Asset    @relation(fields: [assetTypeId], references: [id])
+  assetTypeId Int
+  amount      Float
+  price       Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+  expiresAt   DateTime? 
+}
+
+//GTC (Good 'Til Canceled): This type of order remains in the market until it is either executed or canceled by the user. The order will continue to be in the market until it is executed or canceled, even if the user logs out of the trading system or experiences a system failure.
+
+//IOC (Immediate or Cancel): This type of order is designed to be executed immediately or canceled if it cannot be executed immediately. If the order cannot be executed immediately, any portion of the order that cannot be executed is canceled.
+
+//FOK (Fill or Kill): This type of order is designed to be executed in its entirety or not at all. If the order cannot be executed immediately, the entire order is canceled.
