@@ -43,8 +43,8 @@
 
 ## Introduction
 
-This application is using express, Node.js framework.
-It uses Prisma ORM with postreSQL. This makes using postgreSQL easier.
+This application uses Express.js and Node.js for web development.
+It utilizes Prisma ORM with PostgreSQL, making database operations with PostgreSQL easier.
 
 </br>
 </br>
@@ -57,33 +57,7 @@ It uses Prisma ORM with postreSQL. This makes using postgreSQL easier.
 
 > This is an example of working .env:
 
-- PORT=3000
-- BASE_URL=http://localhost:3000/api
-
-#TOKEN
-
-- ACCESS_TOKEN_SECRET=mouse
-- REFRESH_TOKEN_SECRET=mice
-- ACCESS_TOKEN_LIFE=30000
-- REFRESH_TOKEN_LIFE=1500000
-
-#EMAIL
-
-- USER=info@marketseon.com
-- PASS=Z6Ckdh1gv4swy0Hn7rNU
-- SERVICE=gmail
-- CLIENT_ID=451273081809-b10201q3op39n33221l0658usg56muh0.apps.googleusercontent.com
-  CLIENT_SECRET=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
-- REDIRECT_URI=https://developers.google.com/oauthplayground
-- REFRESH_TOKEN=1//04cSzdELKtwJYCgYIARAAGAQSNwF-L9IrJbmIUCTwZXyILmWcls3ByxHTf9iN3sNrKXR_XzQQAOksif9HJoKvXz3cNftWRXIBObY
-- ORIGIN_URL=https://dolphin-app-l44b9.ondigitalocean.app
-- AUTH_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1haGlyIE11bGFvbWVyb3ZpYyIsImlhdCI6MTUxNjIzOTAyMn0.ORFByVWnupwbEYng-cByZ2qaU8YreblFd6J-YwG3Y3o
-
-#Verification Token
-
-- SECRET_KEY=mouse
-
-- DATABASE_URL="postgresql://myuser:512627@localhost:5432/marketseon"
+---
 
 ## 2. You should run your postgreSQL database
 
@@ -169,8 +143,8 @@ request body:
 ```json
 {
   "email": "joe@hotmail.com",
-  "password": "Mahir12345!",
-  "username": "mahE"
+  "password": "joe12345!",
+  "username": "joe"
 }
 ```
 
@@ -182,7 +156,7 @@ Response:</br>
   "message": "User registered successfully and email sent to your email address",
   "user": {
     "id": 28,
-    "username": "bake",
+    "username": "joe",
     "email": "joe@hotmail.com",
     "emailVerified": false,
     "verificationToken": null, //possibly usless
@@ -223,7 +197,7 @@ request body:
 ```json
 {
   "email": "joe@hotmail.com",
-  "password": "Mahir12345!",
+  "password": "joe12345!",
   "token": "335954"
 }
 ```
@@ -234,7 +208,7 @@ Response:
 
 ```json
 {
-  "username": "bake",
+  "username": "joe",
   "status": "Logged in",
   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1haGlyLmNzQGhvdG1haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NzMwMTIyMzYsImV4cCI6MTY3MzAxMjI2Nn0.1hMOa5ASYgdp9Tk86Y_QYXIxh9862UULErZX5U293gU",
   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1haGlyLmNzQGhvdG1haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2NzMwMTIyMzYsImV4cCI6MTY3MzAxMzczNn0.FaCEwKsamAiFn0w0ttBSP691_27X8wnUXdbYShOCsnc"
@@ -307,7 +281,7 @@ request body:
 ```json
 {
   "email": "joe@hotmail.com",
-  "newpassword": "Nahir12345!"
+  "newpassword": "joe12345!"
 }
 ```
 
@@ -382,8 +356,8 @@ request body:
 ```json
 {
   "email": "joe@hotmail.com",
-  "oldpassword": "Nahir12345!",
-  "newpassword": "Oahir12345!"
+  "oldpassword": "joe12345!",
+  "newpassword": "Joe12345!"
 }
 ```
 
@@ -460,8 +434,8 @@ Response:
 [
   {
     "id": 1,
-    "username": "mahe",
-    "email": "mahir.cs@gmail.com",
+    "username": "joe",
+    "email": "joe.cs@gmail.com",
     "emailVerified": false,
     "verificationToken": null,
     "password": "$2b$10$yggSRTjelNlsApuUCCdjNOLBXw3iYoVWz9J5DcQmHdgjaUzODf30y",
@@ -471,8 +445,8 @@ Response:
   },
   {
     "id": 4,
-    "username": "kemo",
-    "email": "kemo@gmail.com",
+    "username": "james",
+    "email": "james@gmail.com",
     "emailVerified": false,
     "verificationToken": null,
     "password": "$2b$10$.sMvuQ0UnKLsg/1hmuHWPeCAL4q6ac6jY5na5EuK0hyYtfw34Mfl2",
@@ -483,7 +457,7 @@ Response:
   {
     "id": 9,
     "username": "Iah",
-    "email": "iahir.cs@gmail.com",
+    "email": "bob.cs@gmail.com",
     "emailVerified": false,
     "verificationToken": null,
     "password": "$2b$10$n68IKyOrePcTCwCvQEcAx.XT3pNUVCByXNGfB6fdhghYgbRnKKrom",
@@ -498,7 +472,7 @@ Response:
   },
   {
     "id": 30,
-    "username": "Make",
+    "username": "Joe",
     "email": "joe@hotmail.com",
     "emailVerified": false,
     "verificationToken": null,
@@ -546,8 +520,8 @@ Response:
 [
   {
     "id": 4,
-    "username": "kemo",
-    "email": "kemo@gmail.com",
+    "username": "james",
+    "email": "james@gmail.com",
     "emailVerified": false,
     "verificationToken": null,
     "password": "$2b$10$.sMvuQ0UnKLsg/1hmuHWPeCAL4q6ac6jY5na5EuK0hyYtfw34Mfl2",
@@ -558,7 +532,7 @@ Response:
   {
     "id": 9,
     "username": "Iah",
-    "email": "iahir.cs@gmail.com",
+    "email": "bob.cs@gmail.com",
     "emailVerified": false,
     "verificationToken": null,
     "password": "$2b$10$n68IKyOrePcTCwCvQEcAx.XT3pNUVCByXNGfB6fdhghYgbRnKKrom",
@@ -573,7 +547,7 @@ Response:
   },
   {
     "id": 30,
-    "username": "Make",
+    "username": "Joe",
     "email": "joe@hotmail.com",
     "emailVerified": false,
     "verificationToken": null,
@@ -614,7 +588,7 @@ request body:
 ```json
 {
   "email": "joe@hotmail.com",
-  "password": "Oahir12345!"
+  "password": "Joe12345!"
 }
 ```
 
@@ -624,7 +598,7 @@ Response:
 
 ```json
 {
-  "message": "Email sent successfully, your new email address is joe@hotmail.com, you can not use your old email mustafa99284@outlook.com anymore!"
+  "message": "Email sent successfully, your new email address is joe@hotmail.com, you can not use your old email Masa99284@outlook.com anymore!"
 }
 ```
 
@@ -751,8 +725,8 @@ request body:
 ```json
 {
   "id": 37,
-  "firstname": "Mahiraga",
-  "lastname": "Mahiragic",
+  "firstname": "joeaga",
+  "lastname": "joeagic",
   "phonenumber": "123-456-7890",
   "country": "United States",
   "state": "California",
@@ -769,8 +743,8 @@ Response:
 ```json
 { "message": "Profile created successfully",  {
         "id": 5,
-        "firstname": "Mahiraga",
-        "lastname": "Mahiragic",
+        "firstname": "joeaga",
+        "lastname": "joeagic",
         "phoneNumber": "123-456-7890",
         "country": "United States",
         "state": "California",
@@ -805,7 +779,7 @@ request body:
 
 ```json
 {
-  "lastname": "Mulaosmanovic"
+  "lastname": "Traver"
 }
 ```
 
@@ -835,8 +809,8 @@ Response:
   },
   "profile": {
     "id": 5,
-    "firstname": "Mahiraga",
-    "lastname": "Mulaosmanovic",
+    "firstname": "joeaga",
+    "lastname": "Traver",
     "phoneNumber": "123-456-7890",
     "country": "United States",
     "state": "California",
@@ -868,7 +842,7 @@ request body:
 ```json
 {
   "username": "fuke",
-  "password": "Mahir12345!"
+  "password": "joe12345!"
 }
 ```
 
@@ -902,7 +876,7 @@ request body:
 ```json
 {
   "username": "fuke",
-  "password": "Mahir12345!"
+  "password": "joe12345!"
 }
 ```
 
@@ -915,8 +889,8 @@ Response:
   "message": "Account deleted successfully",
   "deleteProfile": {
     "id": 8,
-    "firstname": "Mahiraga",
-    "lastname": "Mahiragic",
+    "firstname": "joeaga",
+    "lastname": "joeagic",
     "phoneNumber": "123-456-7890",
     "country": "United States",
     "state": "California",
@@ -971,8 +945,8 @@ Response:
   },
   {
     "id": 2,
-    "firstname": "Mustafa",
-    "lastname": "Mustafic",
+    "firstname": "Masa",
+    "lastname": "Memac",
     "phoneNumber": "123-456-7890",
     "country": "United States",
     "state": "California",
